@@ -2,7 +2,8 @@
   "generators": {
     "modules": {}
   },
-  "hooks": {
-    "grunt": false
+  "hooks" : {
+  	"grunt" : false,
+  	"session" : false
   }
 }
