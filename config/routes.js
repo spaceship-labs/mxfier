@@ -1,7 +1,8 @@
 module.exports.routes = {
 
   '/': {
-    view: 'homepage'
+    controller: 'link',
+    action: 'count'
   },
   '/search': {
     controller: 'main',
@@ -10,5 +11,5 @@ module.exports.routes = {
   '/classify': {
     controller: 'main',
     action: 'classify'
-  }
+  },
 };

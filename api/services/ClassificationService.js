@@ -3,29 +3,59 @@ service = module.exports = {};
 var Q = require('Q');
 
 service.train = train;
-service.classify = classify;
+service.test = test;
+service.setAdapter = setAdapter;
+service.classifier = {};
 
-function train() {
-  var defered = Q.defer();
-  var classifier = BayesAdapter;
-  Link.find({ limit: 3000 }).then(function(links) {
-    links.forEach(function(link, key) {
-      var doc = link.title + ' ' + link.description + ' ' + link.hostname;
-      classifier.learn(doc, link.category);
-    });
-    defered.resolve(classifier);
-  });
-  return defered.promise;
+
+function setAdapter(adapter) {
+  if (adapter === 'natural') {
+    this.classifier = NaturalAdapter;
+  } else if (adapter === 'bayes') {
+    this.classifier = BayesAdapter;
+  }
 }
 
-function classify(link) {
-  return ClassificationService
-    .train()
-    .then(function(classifier) {
-      var doc = link.title + ' ' + link.description + ' ' + link.hostname;
-      var result = classifier.classify(doc);
-      console.log('result', result);
-      return result;
-    });
+function train(links) {
+  this.classifier.init();
+  links.forEach(function(link) {
+    var doc = link.title + ' ' + link.description + ' ' + link.href;
+    ClassificationService.classifier.learn(doc, link.category);
+  });
+  this.classifier.train();
+}
 
+
+function test() {
+  ClassificationService.setAdapter('bayes');
+  return Link.getTestSets(.1)
+    .then(function(sets) {
+      ClassificationService.train(sets.training);
+      var errors = 0;
+      var results = sets.control.map(runTest);
+      var errors = results.reduce(addErrors, 0);
+      var obj = {
+        errors: errors,
+        totalTested: sets.control.length,
+        totalTrained: sets.training.length,
+        results
+      };
+      //console.log(obj);
+      return obj;
+    });
+}
+
+function addErrors(sum,value) {
+  var add = value.expected === value.result ? 0 : 1;
+  return sum + add;
+
+}
+
+function runTest(link) {
+  var doc = link.title + ' ' + link.description + ' ' + link.href;
+  var result = ClassificationService.classifier.classify(doc);
+  return {
+    expected: link.category,
+    result: result
+  }
 }

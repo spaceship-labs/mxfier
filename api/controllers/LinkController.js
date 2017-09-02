@@ -18,12 +18,29 @@ module.exports = {
 
     Q.all(tasks)
       .then(function(results) {
-      	res.json(results);
+        res.json(results);
       })
       .catch(function(error) {
         console.log(error);
         res.json(error);
       })
+  },
 
+  stats: function(req, res) {
+    var Q = require('Q');
+    Category.find().then(function(categories) {
+      var tasks = categories.map(function(cat) {
+        return Link.count({ category: cat.tag });
+      });
+      Q.all(tasks).then(function(results) {
+        var result = categories.map(function(cat,i){
+          return {
+            category : cat,
+            count : results[i]
+          }
+        });
+        res.json(result);
+      });
+    });
   }
 };

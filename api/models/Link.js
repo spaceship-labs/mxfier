@@ -17,5 +17,25 @@ module.exports = {
   		model : 'category'
   	}
   },
+  getTestSets : function(testPct,oneAgainst){
+    return Link.find().then(function(links){
+      var testSet = [];
+      var length = links.length;
+      if(oneAgainst){
+        links.map(function(link){
+          link.category = link.category !== oneAgainst ? 'other' : link.category;
+        });
+      }
+      while(testSet.length / length < testPct){
+        var element = Math.floor((links.length - 1) * Math.random());
+        var link = links.splice(element,1);
+        testSet.push(link[0]);
+      }
+      return {
+        training : links,
+        control : testSet,
+      }
+    });
+  },
 };
 
