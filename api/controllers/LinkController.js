@@ -4,7 +4,7 @@
  * @description :: Server-side logic for managing links
  * @help        :: See http://sailsjs.org/#!/documentation/concepts/Controllers
  */
-var Q = require('Q');
+var Q = require('q');
 
 module.exports = {
   saveLinks: function(req, res) {
@@ -27,7 +27,7 @@ module.exports = {
   },
 
   stats: function(req, res) {
-    var Q = require('Q');
+    var Q = require('q');
     Category.find().then(function(categories) {
       var tasks = categories.map(function(cat) {
         return Link.count({ category: cat.tag });

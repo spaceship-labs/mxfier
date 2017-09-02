@@ -1,6 +1,6 @@
 service = module.exports = {};
 
-var Q = require('Q');
+var Q = require('q');
 
 service.scrape = scrape;
 
