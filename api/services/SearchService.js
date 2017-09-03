@@ -48,16 +48,8 @@ function ddg(query, max) {
   var ddg = require('ddg-scraper');
   var deferred = Q.defer();
 
-  ddg.search({ q: query, max: max }, function(err, res) {
-    if (err) {
-      deferred.reject(err);
-    } else {
-      //console.log('search results:', res);
-      deferred.resolve(res);
-    }
-  });
-  return deferred.promise;
-};
+  return DdgResultsScrapper.search({ q: query, max: max });
+}
 
 function ddgEnhanced(query, max) {
   return SearchService.ddg(query, max)

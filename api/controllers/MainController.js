@@ -14,7 +14,10 @@ module.exports = {
     var searchFunct = SearchService.google;
     
     if(engine === 'bing'){
-      var searchFunct = SearchService.bing
+      searchFunct = SearchService.bing;
+    }
+    else if(engine === 'ddg'){
+      searchFunct = SearchService.ddg;
     }
 
     searchFunct(query, perPage)
