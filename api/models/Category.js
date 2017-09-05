@@ -12,11 +12,13 @@ module.exports = {
   		type : 'string',
   		index : true,
   		primaryKey : true,
-  		required : true
+  		required : true,
+      unique: true
   	},
   	label : {
   		type : 'string',
-  		required : true
+  		required : true,
+      unique: true
   	},
     links : {
       collection : 'link',
