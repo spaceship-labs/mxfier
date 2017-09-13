@@ -14,8 +14,10 @@
     "include-all": "^1.0.0",
     "natural": "^0.5.4",
     "node-bing-api": "^3.2.2",
+    "node-rest-client": "^3.1.0",
     "prompt": "^1.0.0",
     "q": "^1.5.0",
+    "querystring": "^0.2.0",
     "rc": "1.0.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",
@@ -36,6 +38,7 @@
   "author": "anonymous node/sails user",
   "license": "",
   "devDependencies": {
+    "sails-api-rest": "^0.10.4",
     "sails-hook-autoreload": "^0.14.1"
   }
 }

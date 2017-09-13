@@ -7,7 +7,7 @@ var cheerio = require('cheerio');
 
     // See https://duckduckgo.com/params for more arams
 
-    opts.q = opts.q.replace(/['"]+/g, '');
+    //opts.q = opts.q.replace(/['"]+/g, '');
 
     return request({
       baseUrl: 'https://duckduckgo.com',

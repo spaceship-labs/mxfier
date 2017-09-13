@@ -7,4 +7,10 @@ module.exports.connections = {
     password: process.env.DB_PASSWORD,
   },
 
+  ctbook: {
+    adapter: 'sails-mongo',
+    url: 'mongodb://ctbooku2:pdt2cnTbK17@104.130.124.57:27017/ctbook-update2'
+
+  }
+
 };
