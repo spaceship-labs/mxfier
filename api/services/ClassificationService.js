@@ -62,10 +62,14 @@ function runTest(link) {
 }
 
 function prepareText(text) {
-  return tokenizer
-    .tokenize(text)
-    .map(token => token.trim().toLowerCase())
-    .map(token => normalize[token] || token)
-    .map(token => synonyms[token] || token)
-    .join(' ');
+  if (true) {
+    return tokenizer
+      .tokenize(text)
+      .map(token => token.trim().toLowerCase())
+      .map(token => normalize[token] || token)
+      .map(token => synonyms[token] || token)
+      .join(' ');
+  } else {
+    return text;
+  }
 }
