@@ -7,8 +7,10 @@ var cheerio = require('cheerio');
 
     // See https://duckduckgo.com/params for more arams
 
+    opts.q = opts.q.replace(/['"]+/g, '');
+
     return request({
-      baseUrl: `https://duckduckgo.com`,
+      baseUrl: 'https://duckduckgo.com',
       uri: '/html',
       qs: opts,
       transform: function (body) {
@@ -18,17 +20,17 @@ var cheerio = require('cheerio');
     .then(function($){
       var results = [];
       var links = $('#links .result__body');
-      sails.log.info('links', links);
+      //sails.log.info('links', links);
       links.each((i, elem) => {
 
         if ((max > 0 && results.length < max) || max === 0) {
-          sails.log.info('elem', $(elem).html());
+          //sails.log.info('elem', $(elem).html());
 
           var linkUrl = $(elem).find('a.result__a');
           var url = $(linkUrl).attr('href');
           var title = $(linkUrl).text();
           var description = $(elem).find('.result__snippet').text();
-          sails.log.info('a url', url);
+          //sails.log.info('a url', url);
 
 
           url = formatDdgUrl(url);
