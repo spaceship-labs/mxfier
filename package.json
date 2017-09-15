@@ -23,6 +23,7 @@
     "request-promise": "^4.2.1",
     "sails": "~0.12.13",
     "sails-disk": "~0.10.9",
+    "sails-hook-blueprint-count": "0.0.3",
     "sails-hook-update-or-create": "^0.1.4",
     "sails-mongo": "^0.12.2"
   },
