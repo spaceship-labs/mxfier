@@ -70,7 +70,7 @@ function searchEntity(entity, searchEngine, maxResults) {
   } else if (searchEngine === 'ddg') {
     searchFunct = SearchService.ddg;
   } else if (searchEngine === 'google') {
-    alias = '"' + alias + '"';
+    alias = '"' + entity.name + '"';
     searchFunct = SearchService.google;
   }
 
