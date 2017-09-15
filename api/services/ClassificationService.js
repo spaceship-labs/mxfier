@@ -35,7 +35,7 @@ function test() {
     ClassificationService.train(sets.training);
     var errors = 0;
     var results = sets.control.map(runTest);
-    var errors = results.reduce(addErrors, 0);
+    errors = results.reduce(addErrors, 0);
     var obj = {
       errors: errors,
       totalTested: sets.control.length,
