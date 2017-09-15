@@ -62,9 +62,12 @@ function runTest(link) {
 }
 
 function prepareText(text) {
-  return tokenizer
-    .tokenize(text)
+  return text
+    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')
+    .replace(/\s{2,}/g, ' ')
+    .split(' ')
     .map(token => token.trim().toLowerCase())
+    .filter(token => token)
     .map(token => normalize[token] || token)
     .map(token => synonyms[token] || token)
     .join(' ');
