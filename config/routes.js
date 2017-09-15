@@ -12,4 +12,8 @@ module.exports.routes = {
     controller: 'main',
     action: 'classify'
   },
+  'get /entity/count' : {
+    blueprint: 'count',
+    model : 'entity'
+  },
 };
