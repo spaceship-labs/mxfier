@@ -35,7 +35,7 @@ function test() {
     ClassificationService.train(sets.training);
     var errors = 0;
     var results = sets.control.map(runTest);
-    var errors = results.reduce(addErrors, 0);
+    errors = results.reduce(addErrors, 0);
     var obj = {
       errors: errors,
       totalTested: sets.control.length,
@@ -63,9 +63,12 @@ function runTest(link) {
 
 function prepareText(text) {
   if (true) {
-    return tokenizer
-      .tokenize(text)
+    return text
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .split(' ')
       .map(token => token.trim().toLowerCase())
+      .filter(token => token)
       .map(token => normalize[token] || token)
       .map(token => synonyms[token] || token)
       .join(' ');

@@ -45,7 +45,7 @@ module.exports = {
       return {
         training : links,
         control : testSet,
-      }
+      };
     });
   },
 };
