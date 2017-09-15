@@ -11,13 +11,14 @@ function bing(query, perPage) {
 
   var deferred = Q.defer();
   var Bing = require('node-bing-api')({ accKey: sails.config.bing.apiKey });
-  Bing.web(query,{count:perPage},function(error,res,body){
-    if(error){
+  Bing.web(query, { count: perPage }, function(error, res, body) {
+    if (error) {
       return deferred.reject(error);
-    }else{
-      if(body.webPages){
+    } else {
+      if (body.webPages) {
+        //console.log('some links',body.webPages.value.length);
         return deferred.resolve(body.webPages.value);
-      }else{
+      } else {
         deferred.resolve([]);
       }
     }
@@ -45,9 +46,8 @@ function google(query, perPage) {
 }
 
 function ddg(query, max) {
+  console.log(query);
   var ddg = require('ddg-scraper');
-  var deferred = Q.defer();
-
   return DdgResultsScrapper.search({ q: query, max: max });
 }
 

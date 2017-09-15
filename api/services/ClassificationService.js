@@ -22,7 +22,7 @@ function train(links) {
   this.classifier.init();
   links.forEach(function(link) {
     var doc = prepareText(
-      link.title + ' ' + link.description + ' ' + link.href
+      link.title + ' ' + link.description + ' ' + link.link
     );
     ClassificationService.classifier.learn(doc, link.category);
   });
@@ -35,7 +35,7 @@ function test() {
     ClassificationService.train(sets.training);
     var errors = 0;
     var results = sets.control.map(runTest);
-    var errors = results.reduce(addErrors, 0);
+    errors = results.reduce(addErrors, 0);
     var obj = {
       errors: errors,
       totalTested: sets.control.length,
@@ -53,7 +53,7 @@ function addErrors(sum, value) {
 }
 
 function runTest(link) {
-  var doc = prepareText(link.title + ' ' + link.description + ' ' + link.href);
+  var doc = prepareText(link.title + ' ' + link.description + ' ' + link.link);
   var result = ClassificationService.classifier.classify(doc);
   return {
     expected: link.category,
@@ -62,13 +62,17 @@ function runTest(link) {
 }
 
 function prepareText(text) {
-  return text
-    .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')
-    .replace(/\s{2,}/g, ' ')
-    .split(' ')
-    .map(token => token.trim().toLowerCase())
-    .filter(token => token)
-    .map(token => normalize[token] || token)
-    .map(token => synonyms[token] || token)
-    .join(' ');
+  if (true) {
+    return text
+      .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')
+      .replace(/\s{2,}/g, ' ')
+      .split(' ')
+      .map(token => token.trim().toLowerCase())
+      .filter(token => token)
+      .map(token => normalize[token] || token)
+      .map(token => synonyms[token] || token)
+      .join(' ');
+  } else {
+    return text;
+  }
 }

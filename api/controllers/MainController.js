@@ -40,6 +40,6 @@ module.exports = {
     ClassificationService.test()
       .then(function(results) {
         res.json(results);
-      })
+      });
   }
 };

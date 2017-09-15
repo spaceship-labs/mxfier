@@ -1,43 +1,46 @@
 var request = require('request-promise');
 var cheerio = require('cheerio');
 
-  function search (opts, cb) {
-    var max = opts.max || 0;
-    delete opts.max;
+function search(opts, cb) {
+  var max = opts.max || 0;
+  delete opts.max;
 
-    // See https://duckduckgo.com/params for more arams
+  // See https://duckduckgo.com/params for more arams
 
-    return request({
-      baseUrl: `https://duckduckgo.com`,
+  //opts.q = opts.q.replace(/['"]+/g, '');
+
+  return request({
+      baseUrl: 'https://duckduckgo.com',
       uri: '/html',
       qs: opts,
-      transform: function (body) {
-          return cheerio.load(body);
-      }            
+      transform: function(body) {
+        return cheerio.load(body);
+      }
     })
-    .then(function($){
+    .then(function($) {
       var results = [];
       var links = $('#links .result__body');
-      sails.log.info('links', links);
+      //sails.log.info('links', links);
       links.each((i, elem) => {
 
         if ((max > 0 && results.length < max) || max === 0) {
-          sails.log.info('elem', $(elem).html());
+          //sails.log.info('elem', $(elem).html());
 
           var linkUrl = $(elem).find('a.result__a');
           var url = $(linkUrl).attr('href');
           var title = $(linkUrl).text();
           var description = $(elem).find('.result__snippet').text();
-          sails.log.info('a url', url);
+          //sails.log.info('a url', url);
 
 
           url = formatDdgUrl(url);
-
-          results.push({
-            url: url,
-            title: title,
-            description: description
-          });
+          if (title !== 'No  results.') {
+            results.push({
+              url: url,
+              title: title,
+              description: description
+            });
+          }
         }
       });
 
@@ -45,16 +48,16 @@ var cheerio = require('cheerio');
     });
 }
 
-function formatDdgUrl(url){
+function formatDdgUrl(url) {
   //DDG scrapping comes with this url format
   // /l/?kh=-1&amp;uddg=http%3A%2F%2Fwww.breakingnews.com%2Ftopic%2Fgrupo%2Dhiga%2F
 
   var protocol = 'http';
-  if(url.indexOf('https') > -1){
+  if (url.indexOf('https') > -1) {
     protocol = 'https';
   }
   url = unescape(url.substring(url.indexOf(protocol)));
-  return url;  
+  return url;
 }
 
 module.exports = {
