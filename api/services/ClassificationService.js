@@ -22,7 +22,7 @@ function train(links) {
   this.classifier.init();
   links.forEach(function(link) {
     var doc = prepareText(
-      link.title + ' ' + link.description + ' ' + link.href
+      link.title + ' ' + link.description + ' ' + link.link
     );
     ClassificationService.classifier.learn(doc, link.category);
   });
@@ -53,7 +53,7 @@ function addErrors(sum, value) {
 }
 
 function runTest(link) {
-  var doc = prepareText(link.title + ' ' + link.description + ' ' + link.href);
+  var doc = prepareText(link.title + ' ' + link.description + ' ' + link.link);
   var result = ClassificationService.classifier.classify(doc);
   return {
     expected: link.category,

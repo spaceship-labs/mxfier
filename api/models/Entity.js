@@ -17,8 +17,13 @@ module.exports = {
       unique: true,
       type: 'string'
     },
-    searches: {
-      collection: 'search',
+    searchCount : {
+      type : 'integer',
+      defaultsTo : 0,
+      required: true,
+    },
+    webSearches : {
+      collection: 'webSearch',
       via: 'entity'
     }
   }

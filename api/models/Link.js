@@ -10,12 +10,23 @@ module.exports = {
   attributes: {
   	link : {
   		index : true,
-  		primaryKey : true,
   		type : 'string'
   	},
   	category : {
   		model : 'category'
-  	}
+  	},
+    webSearch : {
+      model : 'webSearch'
+    },
+    pageRank : {
+      index : true,
+      type : 'integer'
+    },
+    searchEngine : {
+      type : 'string',
+      index : true,
+    }
+
   },
   getTestSets : function(testPct,oneAgainst){
     return Link.find().then(function(links){
