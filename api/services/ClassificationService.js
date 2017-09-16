@@ -31,7 +31,7 @@ function train(links) {
 
 function test() {
   ClassificationService.setAdapter('bayes');
-  return Link.getTestSets(0.1).then(function(sets) {
+  return SearchResult.getTestSets(0.1).then(function(sets) {
     ClassificationService.train(sets.training);
     var errors = 0;
     var results = sets.control.map(runTest);
@@ -40,7 +40,7 @@ function test() {
       errors: errors,
       totalTested: sets.control.length,
       totalTrained: sets.training.length,
-      results,
+      results: results,
     };
     //console.log(obj);
     return obj;

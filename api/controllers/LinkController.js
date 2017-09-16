@@ -30,7 +30,7 @@ module.exports = {
     var Q = require('q');
     Category.find().then(function(categories) {
       var tasks = categories.map(function(cat) {
-        return Link.count({ category: cat.tag });
+        return SearchResult.count({ category: cat.tag });
       });
       Q.all(tasks).then(function(results) {
         var result = categories.map(function(cat,i){
