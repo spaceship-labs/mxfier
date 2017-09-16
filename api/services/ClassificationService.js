@@ -4,7 +4,7 @@ var normalize = require('../../normalize.json');
 var synonyms = require('../../synonyms.json');
 var Q = require('q');
 
-var customTokenizer = false;
+var customTokenizer = true;
 
 service = module.exports = {};
 service.classifyWebSearch = classifyWebSearch;
@@ -31,7 +31,7 @@ function train(links) {
 }
 
 function classifyWebSearch(webSearch) {
-  ClassificationService.setAdapter('bayes');
+  ClassificationService.setAdapter('natural');
   return SearchResult
     .getTrainingSet(webSearch)
     .then(function(searchResults) {
@@ -46,7 +46,7 @@ function classifyWebSearch(webSearch) {
 }
 
 function test() {
-  ClassificationService.setAdapter('bayes');
+  ClassificationService.setAdapter('natural');
   return SearchResult.getTestSets(0.1).then(function(sets) {
     ClassificationService.train(sets.training);
     var errors = 0;
