@@ -31,7 +31,7 @@ function train(links) {
 }
 
 function classifyWebSearch(webSearch) {
-  ClassificationService.setAdapter('natural');
+  ClassificationService.setAdapter('bayes');
   return SearchResult
     .getTrainingSet(webSearch)
     .then(function(searchResults) {
@@ -46,7 +46,7 @@ function classifyWebSearch(webSearch) {
 }
 
 function test() {
-  ClassificationService.setAdapter('natural');
+  ClassificationService.setAdapter('bayes');
   return SearchResult.getTestSets(0.1).then(function(sets) {
     ClassificationService.train(sets.training);
     var errors = 0;
