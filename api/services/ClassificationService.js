@@ -4,7 +4,10 @@ var normalize = require('../../normalize.json');
 var synonyms = require('../../synonyms.json');
 var Q = require('q');
 
+var customTokenizer = false;
+
 service = module.exports = {};
+service.classifyWebSearch = classifyWebSearch;
 service.train = train;
 service.test = test;
 service.setAdapter = setAdapter;
@@ -21,12 +24,25 @@ function setAdapter(adapter) {
 function train(links) {
   this.classifier.init();
   links.forEach(function(link) {
-    var doc = prepareText(
-      link.title + ' ' + link.description + ' ' + link.link
-    );
+    var doc = prepareText(link.title + ' ' + link.description + ' ' + link.link);
     ClassificationService.classifier.learn(doc, link.category);
   });
-  this.classifier.train();
+  return this.classifier.train();
+}
+
+function classifyWebSearch(webSearch) {
+  ClassificationService.setAdapter('bayes');
+  return SearchResult
+    .getTrainingSet(webSearch)
+    .then(function(searchResults) {
+      ClassificationService.train(searchResults);
+      var results = webSearch.searchResults.map(function(searchResult) {
+        var doc = prepareText(searchResult.title + ' ' + searchResult.description + ' ' + searchResult.link);
+        searchResult.aiCategory = ClassificationService.classifier.classify(doc);
+        return searchResult;
+      });
+      return results;
+    });
 }
 
 function test() {
@@ -62,7 +78,7 @@ function runTest(link) {
 }
 
 function prepareText(text) {
-  if (true) {
+  if (customTokenizer) {
     return text
       .replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g, ' ')
       .replace(/\s{2,}/g, ' ')
